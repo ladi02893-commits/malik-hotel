@@ -1,9 +1,9 @@
 import { Pool, PoolClient } from 'pg';
 import { createClient } from '@insforge/sdk';
 
-const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_URL || 'https://9uxyry2z.us-east.insforge.app';
-const apiKey = process.env.INSFORGE_API_KEY || '';
-const databaseUrl = process.env.INSFORGE_DATABASE_URL || 'postgresql://postgres:1d5b2b71e72973a546bce26d52d0a9ae@9uxyry2z.us-east.database.insforge.app:5432/insforge?sslmode=require';
+const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_URL || 'https://c2y6x4d5.us-east.insforge.app';
+const apiKey = process.env.INSFORGE_API_KEY || 'ik_5a131665bf7277aceeca766beb5a5b38';
+const databaseUrl = process.env.INSFORGE_DATABASE_URL || 'postgresql://postgres:4bed443ecb7b7588d006f1e4efefc7ad@c2y6x4d5.us-east.database.insforge.app:5432/insforge?sslmode=require';
 
 // Privileged InsForge SDK client for server-side operations
 export const insforgeServer = createClient({

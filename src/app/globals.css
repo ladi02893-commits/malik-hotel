@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --border-color: #E5E7EB;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --brand-primary: #166534;
+    --brand-hover: #14532D;
+    --status-success: #16A34A;
+    --status-warning: #D97706;
+    --status-error: #DC2626;
+  }
+
+  body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbar for POS categories and grids */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Screen hiding for thermal receipt portal */
+@media screen {
+  .thermal-receipt-print-area {
+    display: none !important;
+  }
+}
+
+/* Dedicated Print Styling: Isolated Thermal Receipt vs General Reports/Summaries */
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* 1. THERMAL RECEIPT PRINTING MODE */
+  body.printing-thermal-receipt > *:not(.thermal-receipt-print-area) {
+    display: none !important;
+  }
+
+  body.printing-thermal-receipt .thermal-receipt-print-area {
+    display: block !important;
+    position: static !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    padding: 2mm 3mm !important;
+    margin: 0 auto !important;
+    font-family: "Courier New", Courier, monospace, monospace !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    visibility: visible !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  body.printing-thermal-receipt .thermal-receipt-print-area * {
+    visibility: visible !important;
+    color: #000000 !important;
+  }
+
+  /* 2. GENERAL PAGE / REPORT / SUMMARY PRINTING MODE */
+  body:not(.printing-thermal-receipt) header,
+  body:not(.printing-thermal-receipt) aside,
+  body:not(.printing-thermal-receipt) nav,
+  body:not(.printing-thermal-receipt) button,
+  body:not(.printing-thermal-receipt) .no-print,
+  body:not(.printing-thermal-receipt) .sidebar,
+  body:not(.printing-thermal-receipt) .thermal-receipt-print-area {
+    display: none !important;
+  }
+
+  body:not(.printing-thermal-receipt) main {
+    overflow: visible !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: #ffffff !important;
+  }
+
+  body:not(.printing-thermal-receipt) * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

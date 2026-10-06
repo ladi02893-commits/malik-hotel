@@ -8,6 +8,8 @@ import { ProductGrid } from '@/components/pos/ProductGrid';
 import { Cart } from '@/components/pos/Cart';
 import { CartCalculations } from '@/components/pos/CartCalculations';
 import { POSFooterActions } from '@/components/pos/POSFooterActions';
+import { POSMenuSidebar } from '@/components/pos/POSMenuSidebar';
+import { InlineItemSelector } from '@/components/pos/InlineItemSelector';
 
 // Modals
 import { PaymentModal } from '@/components/pos/PaymentModal';
@@ -175,7 +177,10 @@ export default function POSPage() {
 
   return (
     <div className="flex-1 flex overflow-hidden h-[calc(100vh-3.25rem)] pos-container">
-      {/* LEFT / CENTER: SEARCH, CATEGORIES & PRODUCT GRID */}
+      {/* 1. COMPACT MENU SIDEBAR ON ONE SIDE */}
+      <POSMenuSidebar />
+
+      {/* 2. CENTER: SEARCH, INLINE QUANTITY & PRICE SELECTOR & MENU GRID */}
       <div className="flex-1 flex flex-col p-3 overflow-hidden gap-2 bg-slate-50/50">
         {/* Top Control Bar: Search + Quick Drawer & Hold triggers */}
         <div className="flex items-center gap-2">
@@ -248,6 +253,9 @@ export default function POSPage() {
           </button>
         </div>
 
+        {/* INLINE QUANTITY & PRICE SELECTOR (Right on the screen below search!) */}
+        <InlineItemSelector />
+
         {/* Categories Bar */}
         <CategoryTabs />
 
@@ -293,7 +301,7 @@ export default function POSPage() {
           </div>
 
           <div className="flex items-center gap-1.5 font-bold text-emerald-800 flex-shrink-0 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-            <span>Print Bill:</span>
+            <span>Pay:</span>
             <kbd className="px-1.5 py-0.5 bg-emerald-800 text-white rounded font-mono text-[10px]">Shift + Enter</kbd>
           </div>
         </div>

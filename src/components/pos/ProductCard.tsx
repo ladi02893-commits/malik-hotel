@@ -12,15 +12,12 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onOpenAddons }: ProductCardProps) {
-  const { addToCart } = usePOS();
+  const { selectProductForQty } = usePOS();
   const isSoldOut = product.availability === 'sold_out';
 
   const handleClick = () => {
     if (isSoldOut) return;
-
-    // If product has add-on groups available and callback provided, open add-on selector optionally
-    // Otherwise add directly to cart
-    addToCart(product);
+    selectProductForQty(product);
   };
 
   return (

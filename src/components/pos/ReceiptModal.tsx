@@ -36,7 +36,7 @@ export function ReceiptModal() {
           } catch (e) {
             console.error('Failed to trigger window.print:', e);
           }
-        }, 250);
+        }, 100);
         return () => clearTimeout(timer);
       }
       return () => {
@@ -170,7 +170,7 @@ export function ReceiptModal() {
                 {order.items?.map((item, idx) => (
                   <div key={idx}>
                     <div className="flex justify-between">
-                      <span>{item.quantity} × {item.product_name_snapshot}</span>
+                      <span>{item.quantity} × {item.product_name_snapshot || (item as any).name_snapshot || (item as any).name || 'Item'}</span>
                       <span className="font-bold">{formatMoney(item.line_total)}</span>
                     </div>
                     {item.addons && item.addons.length > 0 && (
@@ -313,7 +313,7 @@ export function ReceiptModal() {
                 {order.items?.map((item, idx) => (
                   <div key={idx} style={{ marginBottom: '3px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>{item.quantity} x {item.product_name_snapshot}</span>
+                      <span>{item.quantity} x {item.product_name_snapshot || (item as any).name_snapshot || (item as any).name || 'Item'}</span>
                       <span>{formatMoney(item.line_total)}</span>
                     </div>
                     {item.addons?.map((a: any, aidx: number) => (

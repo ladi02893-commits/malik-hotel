@@ -10,7 +10,7 @@ export function POSFooterActions() {
     cart,
     totals,
     clearCart,
-    setIsPaymentModalOpen,
+    quickCheckoutAndPrint,
     setIsHoldModalOpen,
     activeRegister,
     setIsRegisterOpenModalOpen,
@@ -19,16 +19,16 @@ export function POSFooterActions() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const isCartEmpty = cart.length === 0;
 
-  // Keyboard shortcuts F4 (Hold), F6 (Pay), F9 (Clear)
+  // Keyboard shortcuts F4 (Hold), Shift+Enter / F6 (Pay), F9 (Clear)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'F6') {
+      if (e.key === 'F6' || (e.key === 'Enter' && e.shiftKey)) {
         e.preventDefault();
         if (!isCartEmpty) {
           if (!activeRegister) {
             setIsRegisterOpenModalOpen(true);
           } else {
-            setIsPaymentModalOpen(true);
+            quickCheckoutAndPrint();
           }
         }
       } else if (e.key === 'F4') {
@@ -45,7 +45,7 @@ export function POSFooterActions() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isCartEmpty, activeRegister, setIsPaymentModalOpen, setIsHoldModalOpen, setIsRegisterOpenModalOpen]);
+  }, [isCartEmpty, activeRegister, quickCheckoutAndPrint, setIsHoldModalOpen, setIsRegisterOpenModalOpen]);
 
   const handlePayClick = () => {
     if (isCartEmpty) return;
@@ -53,7 +53,7 @@ export function POSFooterActions() {
       setIsRegisterOpenModalOpen(true);
       return;
     }
-    setIsPaymentModalOpen(true);
+    quickCheckoutAndPrint();
   };
 
   return (
@@ -108,21 +108,24 @@ export function POSFooterActions() {
             <kbd className="hidden lg:inline text-[9px] font-mono text-slate-400 bg-slate-100 px-1 rounded">F9</kbd>
           </button>
 
-          {/* Pay Button (F6) - Dominant Primary Action */}
+          {/* Pay Button - Dominant Primary Action with shortcut below */}
           <button
             onClick={handlePayClick}
             disabled={isCartEmpty}
-            className="col-span-6 py-2.5 px-3 rounded-lg bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 disabled:opacity-40 text-white font-bold text-xs flex items-center justify-between shadow-xs transition-colors"
-            title="Pay and complete sale (F6)"
+            className="col-span-6 py-2 px-3 rounded-lg bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 disabled:opacity-40 text-white font-bold flex flex-col items-center justify-center shadow-xs transition-colors"
+            title="Pay and print receipt immediately (Shift + Enter)"
           >
-            <div className="flex items-center gap-1.5">
-              <CreditCard className="w-4 h-4 flex-shrink-0" />
-              <span>PAY & PRINT</span>
-              <kbd className="hidden md:inline text-[9px] font-mono text-emerald-200 bg-emerald-900/70 px-1.5 py-0.5 rounded">Shift+Enter</kbd>
+            <div className="flex items-center justify-between w-full">
+              <span className="text-sm font-extrabold tracking-wide">Pay</span>
+              <span className="font-mono text-sm tracking-tight">
+                {formatMoney(totals.grand_total)}
+              </span>
             </div>
-            <span className="font-mono text-sm tracking-tight">
-              {formatMoney(totals.grand_total)}
-            </span>
+            <div className="w-full text-center mt-0.5">
+              <span className="text-[10px] font-mono text-emerald-200/90 font-medium">
+                [Shift + Enter]
+              </span>
+            </div>
           </button>
         </div>
       )}

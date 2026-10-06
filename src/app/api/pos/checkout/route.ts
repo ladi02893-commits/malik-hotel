@@ -153,6 +153,8 @@ export async function POST(req: NextRequest) {
       validatedItems.push({
         product_id: dbProd.id,
         name_snapshot: dbProd.name,
+        product_name_snapshot: dbProd.name,
+        name: dbProd.name,
         unit_price: unitPrice,
         quantity,
         item_subtotal: itemSubtotal,

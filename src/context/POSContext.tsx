@@ -39,6 +39,9 @@ interface POSContextType {
   setSelectedCategoryId: (id: string) => void;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
+  selectedProductForQty: Product | null;
+  setSelectedProductForQty: (product: Product | null) => void;
+  selectProductForQty: (product: Product) => void;
 
   // Cart State
   cart: CartItem[];
@@ -127,6 +130,8 @@ export function POSProvider({ children }: { children: React.ReactNode }) {
   // Filters
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedProductForQty, setSelectedProductForQty] = useState<Product | null>(null);
+
 
   // Cart
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -163,6 +168,14 @@ export function POSProvider({ children }: { children: React.ReactNode }) {
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
+
+  const selectProductForQty = useCallback((product: Product) => {
+    if (product.availability === 'sold_out') {
+      showToast(`${product.name} is currently sold out!`, 'warning');
+      return;
+    }
+    setSelectedProductForQty(product);
+  }, [showToast]);
 
   // Fetch initial POS data
   const loadPOSData = useCallback(async () => {
@@ -635,6 +648,9 @@ export function POSProvider({ children }: { children: React.ReactNode }) {
         setSelectedCategoryId,
         searchQuery,
         setSearchQuery,
+        selectedProductForQty,
+        setSelectedProductForQty,
+        selectProductForQty,
         cart,
         selectedCartItemId,
         setSelectedCartItemId,

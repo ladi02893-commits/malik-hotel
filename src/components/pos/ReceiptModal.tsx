@@ -25,27 +25,25 @@ export function ReceiptModal() {
 
   const order = completedOrderForReceipt;
 
-  // Auto trigger browser print if auto_print is on OR if triggered via Shift+Enter quick checkout
+  // Auto trigger browser print immediately whenever an order completes
   useEffect(() => {
     if (order) {
       document.body.classList.add('printing-thermal-receipt');
-      if (receiptSettings.auto_print || isQuickPrint) {
-        const timer = setTimeout(() => {
-          try {
-            window.print();
-          } catch (e) {
-            console.error('Failed to trigger window.print:', e);
-          }
-        }, 100);
-        return () => clearTimeout(timer);
-      }
+      const timer = setTimeout(() => {
+        try {
+          window.print();
+        } catch (e) {
+          console.error('Failed to trigger window.print:', e);
+        }
+      }, 80);
       return () => {
+        clearTimeout(timer);
         document.body.classList.remove('printing-thermal-receipt');
       };
     } else {
       document.body.classList.remove('printing-thermal-receipt');
     }
-  }, [order, receiptSettings.auto_print, isQuickPrint]);
+  }, [order]);
 
   const handlePrint = async () => {
     if (order && order.reprint_count > 0) {

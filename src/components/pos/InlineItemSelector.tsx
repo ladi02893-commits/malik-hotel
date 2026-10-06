@@ -107,21 +107,31 @@ export function InlineItemSelector() {
   const handleConfirm = () => {
     if (!selectedProductForQty) return;
 
-    const qty = parseFloat(quantityInput);
     const targetPrice = parseFloat(priceInput);
+    const targetQty = parseFloat(quantityInput);
 
-    if (isNaN(qty) || qty <= 0) {
-      showToast('Please enter a valid amount or quantity', 'warning');
-      priceInputRef.current?.focus();
-      return;
-    }
-
+    let qty = 1;
     let customUnitPrice: number | undefined = undefined;
-    if (activeInputType === 'price' && !isNaN(targetPrice) && targetPrice > 0) {
-      const standardCost = Number((qty * selectedProductForQty.selling_price).toFixed(2));
-      if (Math.abs(standardCost - targetPrice) >= 0.5) {
-        customUnitPrice = Number((targetPrice / qty).toFixed(2));
+
+    if (activeInputType === 'price') {
+      if (isNaN(targetPrice) || targetPrice <= 0) {
+        showToast('Please enter a valid amount', 'warning');
+        priceInputRef.current?.focus();
+        return;
       }
+      if (Math.abs(targetPrice - selectedProductForQty.selling_price) >= 1) {
+        customUnitPrice = targetPrice;
+        qty = 1;
+      } else {
+        qty = 1;
+      }
+    } else {
+      if (isNaN(targetQty) || targetQty <= 0) {
+        showToast('Please enter a valid quantity', 'warning');
+        qtyInputRef.current?.focus();
+        return;
+      }
+      qty = targetQty;
     }
 
     addToCart(selectedProductForQty, [], undefined, qty, customUnitPrice);

@@ -69,8 +69,8 @@ export default function POSPage() {
       // If another modal or receipt popup is already active, ignore POS global page shortcuts
       if (isAnyModalActive) return;
 
-      // 1. Shift + Enter -> Quick Cash Checkout & Print Bill
-      if (e.key === 'Enter' && e.shiftKey) {
+      // 1. Shift + Enter or F6 -> Quick Cash Checkout & Print Bill
+      if ((e.key === 'Enter' && e.shiftKey) || e.key === 'F6') {
         e.preventDefault();
         quickCheckoutAndPrint();
         return;

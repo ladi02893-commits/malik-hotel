@@ -112,20 +112,13 @@ export function POSFooterActions() {
           <button
             onClick={handlePayClick}
             disabled={isCartEmpty}
-            className="col-span-6 py-2 px-3 rounded-lg bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 disabled:opacity-40 text-white font-bold flex flex-col items-center justify-center shadow-xs transition-colors"
+            className="col-span-6 py-2.5 px-3 rounded-lg bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 disabled:opacity-40 text-white font-bold flex flex-col items-center justify-center shadow-xs transition-colors"
             title="Pay and print receipt immediately (Shift + Enter)"
           >
-            <div className="flex items-center justify-between w-full">
-              <span className="text-sm font-extrabold tracking-wide">Pay</span>
-              <span className="font-mono text-sm tracking-tight">
-                {formatMoney(totals.grand_total)}
-              </span>
-            </div>
-            <div className="w-full text-center mt-0.5">
-              <span className="text-[10px] font-mono text-emerald-200/90 font-medium">
-                [Shift + Enter]
-              </span>
-            </div>
+            <span className="text-base font-black tracking-wide uppercase leading-none">Pay</span>
+            <span className="text-[10px] font-mono text-emerald-200 font-semibold tracking-wider mt-1">
+              [Shift + Enter]
+            </span>
           </button>
         </div>
       )}
